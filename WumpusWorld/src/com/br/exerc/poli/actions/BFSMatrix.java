@@ -44,6 +44,8 @@ public class BFSMatrix implements TypeSearches {
 		matrix.setVisited(matrix.getSource().getX(), matrix.getSource().getY(), true);
 		// processar a fila na busca pelo objetivo
 		if( ! processQueue(queue, "Encontrei o OURO !!!")) {
+			while( !queue.isEmpty() )
+				queue.poll();
 			return false;
 		}
 
@@ -54,11 +56,15 @@ public class BFSMatrix implements TypeSearches {
 		matrix.setVisited(matrix.getDestiny().getX(), matrix.getDestiny().getY(), true);
 		
 		// processar a fila agora para sair da cavernda
-		return processQueue(queue, "Encontrei a saida !!!");	
+		boolean ans = processQueue(queue, "Encontrei a saida !!!");
+		while( ! queue.isEmpty() )
+			queue.poll();
+		return ans;
 	}
 	
 	public boolean processQueue(Queue<Node> queue, String successMessage) {
 		// BFS, uma busca em largura afim de procurar a caverna com o pote de ouro
+		boolean ans = false;
 		while( ! queue.isEmpty() ) {
 			Matrix.Node top = queue.poll();
 			Matrix.Node anc = top.getAncestor();
@@ -102,6 +108,8 @@ public class BFSMatrix implements TypeSearches {
 				System.out.println(successMessage);
 				matrix.getActor().setPoints(points + 1000);
 				System.out.printf("%d pontos para o Robo\n", matrix.getActor().getPoints());
+				while( ! queue.isEmpty() )
+					queue.poll();
 				return true;
 			}
 			points -= 10;
@@ -145,6 +153,9 @@ public class BFSMatrix implements TypeSearches {
 				else if(local instanceof Monster) {
 					System.out.println("Robo foi destruido pelo monstro");
 					matrix.getActor().setPoints(points - 1000);
+					while( ! queue.isEmpty() ) {
+						queue.poll();
+					}
 					return false;
 				}
 				
@@ -153,6 +164,9 @@ public class BFSMatrix implements TypeSearches {
 					// se sim, o robo caiu
 					System.out.println("Robo caiu no buraco");
 					matrix.getActor().setPoints(points - 1000);
+					while( ! queue.isEmpty() ) {
+						queue.poll();
+					}
 					return false;
 				}
 				
@@ -165,7 +179,10 @@ public class BFSMatrix implements TypeSearches {
 				}
 			}
 		}
-		return false;
+		while( ! queue.isEmpty() ) {
+			queue.poll();
+		}
+		return ans;
 	}
 	
 	

@@ -72,6 +72,7 @@ public class DFSMatrix implements TypeSearches {
 	}
 	
 	public boolean processStack(Stack<Node> stack, String successMessage) {
+		boolean ans = false;
 		while( ! stack.empty() ) {
 			Node top = stack.pop();
 			Matrix.Node anc = top.getAncestor();
@@ -110,16 +111,13 @@ public class DFSMatrix implements TypeSearches {
 				y = top.getY();
 			int points = matrix.getActor().getPoints();
 			
-			if(top.equals(matrix.getDestiny())) {
-				System.out.println(successMessage);	
-				matrix.getActor().setPoints(points + 1000);
-				return true;
-			}
 			
 			// se o no expandido for o No destino acabou a busca
 			if(top.equals(matrix.getDestiny())) {
 				System.out.println("ENCONTREI O OURO");	
 				matrix.getActor().setPoints(points + 1000);
+				while( ! stack.empty() )
+					stack.pop();
 				return true;
 			}
 			points -= 10;
@@ -160,6 +158,8 @@ public class DFSMatrix implements TypeSearches {
 				else if(local instanceof Monster) {
 					System.out.println("Robo foi destruido pelo monstro");
 					matrix.getActor().setPoints(points - 1000);
+					while( ! stack.empty() )
+						stack.pop();
 					return false;
 				}
 				
@@ -168,6 +168,8 @@ public class DFSMatrix implements TypeSearches {
 					// se sim, o robo caiu
 					System.out.println("Robo caiu no buraco");
 					matrix.getActor().setPoints(points - 1000);
+					while( ! stack.empty() )
+						stack.pop();
 					return false;
 				}
 				
@@ -181,7 +183,9 @@ public class DFSMatrix implements TypeSearches {
 				}
 			}
 		}
-		return false;
+		while( ! stack.empty() )
+			stack.pop();
+		return ans;
 	}
 	
 	// funcao que printa uma legenda
