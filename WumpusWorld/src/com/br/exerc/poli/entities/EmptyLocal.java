@@ -36,11 +36,11 @@ public class EmptyLocal extends Entity {
 	@Override
 	public String returnID() {
 		if(windy)
-			return "EH";
+			return "EH   ";
 		else if(badSmell)
-			return "EM";
+			return "EM   ";
 		else	
-			return "EE";
+			return "EE   ";
 	}
 	
 	

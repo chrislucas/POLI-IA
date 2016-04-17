@@ -123,7 +123,7 @@ public class Matrix {
 		this.dimensionY = dy;
 		populateWorld(generatePositionEntities());
 		//populateWorld();
-		statusMaze();
+		//statusMaze();
 	}
 	
 	public boolean isVisited(int dx, int dy){
@@ -219,18 +219,21 @@ public class Matrix {
 	}
 	
 	public void populateWorld(Map<Integer, Entity> map) {
+		/**
+		 * Calculo para converter uma psicao mat(i,j) para um inteiro
+		 * i * (DIMENSAOX) + j se DIMENSAO X == DIMENSAO Y
+		 * i * (DIMENSAOX) + (i + j) se as DIMENSAO X != DIMENSAO Y
+		 * */
+		
+		int x = 0, y = 0;
+		
 		for(Map.Entry<Integer, Entity> entry : map.entrySet()) {
 			int pos = entry.getKey();
-			/*
-			 * Calculo para converter uma psicao mat(i,j) para um inteiro
-			 * i * (DIMENSAOX) + j se DIMENSAO X == DIMENSAO Y
-			 * i * (DIMENSAOX) + (i + j) se as DIMENSAO X != DIMENSAO Y
-			 * */
-			int x = 0, y = 0;
-			if(dimensionX == dimensionY) {
-				x = pos / (dimensionX);
-				y = pos % (dimensionY);
-			}
+		
+			// toda a posicao menor que a largura da matrix referece a
+			// primeira linha dela
+			x = pos < dimensionX ? 0 : pos / dimensionX;
+			y = pos % dimensionY;
 
 			Entity entity = entry.getValue();
 			Node node = null;
@@ -238,10 +241,12 @@ public class Matrix {
 			// definindo o ponto de partida e chegada
 			if(entity instanceof Actor) {
 				actor 	= (Actor) entity;
-				source  = new Node(x, y, actor);				
+				source  = new Node(x, y, actor);
+				node 	= source;
 			} else if (entity instanceof Goal) {
 				goal 	= (Goal) entity;
 				destiny = new Node(x, y, goal);
+				node 	= destiny;
 			}
 			
 			// se o Node for um espaco vazio devo olhar nos Node adjacentes
@@ -283,6 +288,7 @@ public class Matrix {
 			}
 			setWorld(x, y, node);
 		}
+		return;
 	}
 	
 	public void populateWorld() {

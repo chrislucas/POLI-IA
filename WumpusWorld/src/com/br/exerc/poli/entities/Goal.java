@@ -12,7 +12,7 @@ public class Goal extends Entity {
 	@Override
 	public String returnID() {
 		// TODO Auto-generated method stub
-		return "GO";
+		return "GO   ";
 	}
 
 }

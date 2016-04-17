@@ -5,7 +5,7 @@ public class Monster extends Entity {
 	private String ID;
 	
 	public Monster() {
-		this.ID = "MO";
+		this.ID = "MO   ";
 	}
 	
 	@Override

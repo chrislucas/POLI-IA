@@ -163,16 +163,17 @@ public class BFSMatrix implements TypeSearches {
 	}
 	
 	
-	public void run() {
+	public boolean run() {
 		printSubtitle();
 		matrix = new Matrix(5, 5);
 		int sx = matrix.getSource().getX();
 		int sy = matrix.getSource().getY();
 		int dx = matrix.getDestiny().getX();
 		int dy = matrix.getDestiny().getY();
-		long diff = System.currentTimeMillis();
-		this.search(sx, sy, dx, dy);
-		System.out.println( (System.currentTimeMillis() - diff) / 1000 );
+		//long diff = System.currentTimeMillis();
+		boolean result = this.search(sx, sy, dx, dy);
+		//System.out.println( (System.currentTimeMillis() - diff) / 1000 );
+		return result;
 	}
 
 	// executa uma busca num labiriton de tamanho pre determinado
@@ -202,8 +203,13 @@ public class BFSMatrix implements TypeSearches {
 	private void printSubtitle() {
 		System.out.println("LEGENDA");
 		System.out.println("HO - Buraco");
-		System.out.println("AC - Ator");
+		//System.out.println("AC - Ator");
 		System.out.println("EE - Caverna segura");
 		System.out.println("EW - Caverna com vento");
+		System.out.println("NO - Ator virado para Norte");
+		System.out.println("SU - Ator virado para Sul");
+		System.out.println("LE - Ator virado para Leste");
+		System.out.println("OE - Ator virado para Oeste");
+		System.out.println("");
 	}
 }

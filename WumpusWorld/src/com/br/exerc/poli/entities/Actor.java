@@ -20,10 +20,10 @@ public class Actor extends Entity {
 	
 	static {
 		map = new HashMap<>();
-		map.put(NORTE, "NO");
-		map.put(SUL, "SU");
-		map.put(LESTE, "LE");
-		map.put(OESTE, "OS");
+		map.put(NORTE, "AC NO");
+		map.put(SUL, "AC SU");
+		map.put(LESTE, "AC LE");
+		map.put(OESTE, "AC OS");
 	}
 	
 	public Actor() {

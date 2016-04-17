@@ -10,7 +10,6 @@ package com.br.exerc.poli.entities;
 
 public abstract class Entity {
 
-
 	public abstract String returnID();
 	
 }
