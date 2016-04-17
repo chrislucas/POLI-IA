@@ -133,8 +133,11 @@ public class Matrix {
 		
 		source  = new Node(sx, sy, actor);
 		destiny = new Node(dx, dy, goal);
-		world[sx][sy] = source;
-		world[dx][dy] = destiny;
+		setWorld(sx, sy, source);
+		setWorld(dx, dy, destiny);
+		
+		//world[sx][sy] = source;
+		//world[dx][dy] = destiny;
 		
 		for(int i=0; i<this.dimensionX; i++) {
 			for(int j=0; j<this.dimensionY; j++) {
@@ -195,7 +198,9 @@ public class Matrix {
 						e = new Node(i, j, new EmptyLocal(false, false));	
 
 				}
-				world[i][j] = e == null ? new Node(i, j, new EmptyLocal(false, false)) : e; 
+				// Se Entity e for nulo, colocar como um lugar vazio, senao vale o proprio 'e'
+				//e = e == null ? new Node(i, j, new EmptyLocal(false, false)) : e;
+				setWorld(i, j, e);
 			}
 		}
 	}
@@ -228,6 +233,8 @@ public class Matrix {
 			}
 			System.out.println("");
 		}
+		System.out.println("");
+		return;
 	}
 
 
