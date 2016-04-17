@@ -8,6 +8,7 @@ import com.br.exerc.poli.entities.Entity;
 import com.br.exerc.poli.entities.Goal;
 import com.br.exerc.poli.entities.Hole;
 import com.br.exerc.poli.entities.Monster;
+import com.br.exerc.poli.worlds.Matrix.Node;
 
 /**
  * 
@@ -19,12 +20,21 @@ public class Matrix {
 	
 	public static class Node  {
 		private Entity entity;		// Entidade que esse no possui
+		private Node ancestor;		// node de origem
 		private int x, y;			// posicao na matrix
 		
 		public Node(int x, int y, Entity entity) {
 			this.x = x;
 			this.y = y;
 			this.entity = entity;
+		}
+		
+		public void setAncestor(Node ancestor) {
+			this.ancestor = ancestor;
+		}
+		
+		public Node getAncestor() {
+			return ancestor;
 		}
 		
 		public int getX() {
@@ -41,10 +51,10 @@ public class Matrix {
 	}
 	
 	
-	private Node [][] world;				// matriz que representa o labirinto
-	private Node source, destiny;			// No origem e no destino
-	private boolean [][] visited;			// matriz para marcar nos visitados
-	private int dimensionX, dimensionY;		// limites do mundo
+	private Node [][] world;					// matriz que representa o labirinto
+	private Node source, destiny;				// No origem e no destino
+	private boolean [][] visited;				// matriz para marcar nos visitados
+	private int dimensionX, dimensionY;			// limites do mundo
 	
 	private Entity actor, goal;
 	
@@ -98,8 +108,8 @@ public class Matrix {
 	}
 	
 	
-	public Entity getActor() {
-		return actor;
+	public Actor getActor() {
+		return (Actor)actor;
 	}
 	
 	public Matrix(int dx, int dy) {

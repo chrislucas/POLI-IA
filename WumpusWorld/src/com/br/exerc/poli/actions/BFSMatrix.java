@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
+import com.br.exerc.poli.entities.Actor;
 import com.br.exerc.poli.entities.EmptyLocal;
 import com.br.exerc.poli.entities.Entity;
 import com.br.exerc.poli.entities.Hole;
@@ -37,7 +38,39 @@ public class BFSMatrix implements TypeSearches {
 		
 		// BFS, uma busca em largura afim de procurar a caverna com o pote de ouro
 		while( ! queue.isEmpty() ) {
-			Node top = queue.poll();
+			Matrix.Node top = queue.poll();
+			Matrix.Node anc = top.getAncestor();
+			
+			if( anc != null ) {
+				// se valor de X do novo no for maior que do antecessor
+				// o robo esta virado para LESTE
+				if(top.getX() > anc.getX() ) {
+					try {
+						matrix.getActor().setOrientation(Actor.LESTE);
+					} catch (Exception e) {};
+				}
+				// se valor de X do novo no for menor que do antecessor
+				// o robo esta virado para OESTE
+				else if (top.getX() < anc.getX() ){
+					try {
+						matrix.getActor().setOrientation(Actor.OESTE);
+					} catch (Exception e) {};
+				}
+				// se valor de Y do novo no for maior que do antecessor
+				// o robo esta virado para NORTE
+				else if(top.getY() > anc.getY()) {
+					try {
+						matrix.getActor().setOrientation(Actor.NORTE);
+					} catch (Exception e) {};
+				}
+				else {
+					try {
+						matrix.getActor().setOrientation(Actor.SUL);
+					} catch (Exception e) {};
+				}
+			}
+			
+			
 			int x = top.getX(),
 				y = top.getY();
 			
@@ -100,6 +133,7 @@ public class BFSMatrix implements TypeSearches {
 				y = next.getY();
 				if( ! matrix.isVisited(x, y)) {
 					matrix.setVisited(x, y,true);
+					next.setAncestor(top);
 					queue.add(next);
 				}
 			}
