@@ -15,4 +15,5 @@ public interface TypeSearches {
 	
 	// metodo de busca
 	public boolean search(int sx, int sy, int dx, int dy);
+	public boolean run();
 }

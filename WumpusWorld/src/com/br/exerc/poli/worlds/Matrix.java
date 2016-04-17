@@ -385,7 +385,12 @@ public class Matrix {
 			}
 		}
 	}
-		
+	
+	/**
+	 * 
+	 * Retorna as cavernas adjacentes a partir de um ponto especifico no labirinto
+	 * 
+	 * */
 	public ArrayList<Node> validateStep(int x, int y) {
 		ArrayList<Node> neighboors = new ArrayList<>(); 
 		if(x < this.dimensionX - 1) {
@@ -416,18 +421,5 @@ public class Matrix {
 		}
 		System.out.println("");
 		return;
-	}
-
-
-/*	
-	public static void main(String[] args) {
-		Matrix matrix = new Matrix(8, 10);
-		int sx = matrix.source.getX();
-		int sy = matrix.source.getY();
-		int dx = matrix.destiny.getX();
-		int dy = matrix.destiny.getY();
-		matrix.search(sx, sy, dx, dy);
-	}
-*/	
-	
+	}	
 }

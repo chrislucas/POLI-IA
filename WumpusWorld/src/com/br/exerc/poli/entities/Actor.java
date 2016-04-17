@@ -13,7 +13,7 @@ import java.util.Random;
 
 public class Actor extends Entity {
 
-	private int arrows;
+	private int arrows, points;
 	public static final HashMap<Integer, String> map;
 	private String orientation;
 	public static final int NORTE = 0, SUL = 1, LESTE = 2, OESTE = 3;
@@ -28,12 +28,14 @@ public class Actor extends Entity {
 	
 	public Actor() {
 		this.arrows = new Random().nextInt(1) + 1;
-		this.orientation = map.get(2); 
+		this.orientation = map.get(2);
+		this.points = 100;
 	}
 	
-	public Actor(int arrows) {
+	public Actor(int arrows, int points) {
 		this.arrows = arrows;
 		this.orientation = map.get(2);
+		this.points = points;
 	}
 	
 	public int getArrows() {
@@ -47,6 +49,14 @@ public class Actor extends Entity {
 		}
 		this.arrows--;
 		return;	
+	}
+	
+	public int getPoints() {
+		return points;
+	}
+	
+	public void setPoints(int points) {
+		this.points = points;
 	}
 	
 	public void setOrientation(int n) throws Exception {

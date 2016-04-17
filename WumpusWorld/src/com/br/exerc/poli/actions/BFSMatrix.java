@@ -28,14 +28,36 @@ public class BFSMatrix implements TypeSearches {
 
 	Matrix matrix;
 	
+	
+	/**
+	 * 
+	 * Metodo que percorre o labirinto a partir de uma posicao Origem(sx, sy)
+	 * para chegar ao Destino(dx, dy)
+	 * 
+	 * */
+	
 	@Override
 	public boolean search(int sx, int sy, int dx, int dy) {
 		// TODO Auto-generated method stub
 		Queue<Node> queue = new LinkedList<>();
 		queue.add(matrix.getSource());
+		matrix.setVisited(matrix.getSource().getX(), matrix.getSource().getY(), true);
+		// processar a fila na busca pelo objetivo
+		if( ! processQueue(queue, "Encontrei o OURO !!!")) {
+			return false;
+		}
+
+		// uma nova busca em largura afim de buscar a saida
+		matrix.setVisited(new boolean[matrix.getDimensionX()][matrix.getDimensionY()]);
+		queue = new LinkedList<>();
+		queue.add(matrix.getDestiny());
+		matrix.setVisited(matrix.getDestiny().getX(), matrix.getDestiny().getY(), true);
 		
-		boolean F = false;
-		
+		// processar a fila agora para sair da cavernda
+		return processQueue(queue, "Encontrei a saida !!!");	
+	}
+	
+	public boolean processQueue(Queue<Node> queue, String successMessage) {
 		// BFS, uma busca em largura afim de procurar a caverna com o pote de ouro
 		while( ! queue.isEmpty() ) {
 			Matrix.Node top = queue.poll();
@@ -68,22 +90,29 @@ public class BFSMatrix implements TypeSearches {
 						matrix.getActor().setOrientation(Actor.SUL);
 					} catch (Exception e) {};
 				}
-			}
+			} // fim f ancestor
 			
 			
 			int x = top.getX(),
 				y = top.getY();
+			int points = matrix.getActor().getPoints();
 			
 			// se o no expandido for o No destino acabou a busca
 			if(top.equals(matrix.getDestiny())) {
-				System.out.println("ENCONTREI O OURO");
-				F = true;
-				break;
+				System.out.println(successMessage);	
+				matrix.getActor().setPoints(points + 1000);
+				return true;
 			}
+			points -= 10;
 			
+			matrix.getActor().setPoints(points);
+			
+			// reposiciona o Ator no labiritno
 			matrix.setWorld(x, y, matrix.getActor());
+			// Imprime o labirinto
 			matrix.statusMaze();
 			
+			// a partir da posicao atual, buscar as cavernas adjacentes
 			for(Node next : matrix.validateStep(top.getX(), top.getY())) {
 				/*
 				 * Ao entrar num Node o agente deve avaliar o local
@@ -119,6 +148,7 @@ public class BFSMatrix implements TypeSearches {
 				
 				else if(local instanceof Monster) {
 					System.out.println("Robo foi destruido pelo monstro");
+					matrix.getActor().setPoints(points - 1000);
 					return false;
 				}
 				
@@ -126,6 +156,7 @@ public class BFSMatrix implements TypeSearches {
 				else if( local instanceof Hole ) {
 					// se sim, o robo caiu
 					System.out.println("Robo caiu no buraco");
+					matrix.getActor().setPoints(points - 1000);
 					return false;
 				}
 				
@@ -138,33 +169,11 @@ public class BFSMatrix implements TypeSearches {
 				}
 			}
 		}
-		
-		// uma nova busca em largura a fim de buscar a saida
-		matrix.setVisited(new boolean[matrix.getDimensionX()][matrix.getDimensionY()]);
-		queue = new LinkedList<>();
-		queue.add(matrix.getDestiny());
-		while( ! queue.isEmpty() ) {
-			Node top = queue.poll();
-			if(top.equals(matrix.getSource())) {
-				System.out.println("ENCONTREI A SAIDA");
-				break;
-			}
-			
-			for(Node next : matrix.validateStep(top.getX(), top.getY())) {
-				int x = next.getX(), y = next.getY();
-				if( ! matrix.isVisited(x, y)) {
-					matrix.setVisited(x, y,true);
-					queue.add(next);
-				}
-			}
-		}
-		
-		return F;
+		return false;
 	}
 	
 	
 	public boolean run() {
-		printSubtitle();
 		matrix = new Matrix(5, 5);
 		int sx = matrix.getSource().getX();
 		int sy = matrix.getSource().getY();
@@ -200,7 +209,7 @@ public class BFSMatrix implements TypeSearches {
 	}
 	
 	// funcao que printa uma legenda
-	private void printSubtitle() {
+	public static void printSubtitle() {
 		System.out.println("LEGENDA");
 		System.out.println("HO - Buraco");
 		//System.out.println("AC - Ator");
