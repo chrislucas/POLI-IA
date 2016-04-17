@@ -24,6 +24,14 @@ public class EmptyLocal extends Entity {
 	public boolean isBadSmell() {
 		return badSmell;
 	}
+	
+	public void setBadSmell(boolean badSmell) {
+		this.badSmell = badSmell;
+	}
+	
+	public void setWindy(boolean windy) {
+		this.windy = windy;
+	}
 
 	@Override
 	public String returnID() {

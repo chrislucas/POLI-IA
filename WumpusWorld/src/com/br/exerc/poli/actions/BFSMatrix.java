@@ -165,7 +165,7 @@ public class BFSMatrix implements TypeSearches {
 	
 	public void run() {
 		printSubtitle();
-		matrix = new Matrix(15, 15);
+		matrix = new Matrix(5, 5);
 		int sx = matrix.getSource().getX();
 		int sy = matrix.getSource().getY();
 		int dx = matrix.getDestiny().getX();
