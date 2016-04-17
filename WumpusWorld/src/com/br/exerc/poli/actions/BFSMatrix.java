@@ -132,13 +132,8 @@ public class BFSMatrix implements TypeSearches {
 						// se for necessario gastar uma flecha com o monstro
 						// avaliar as cavernas adjacentes ao monstro e mudar
 						// a condicao de mal cheiro delas
-						/*
-						for(Node nb : matrix.validateStep(next.getX(), next.getY())) {
-							x = nb.getX();
-							y = nb.getY();
-							matrix.setWorld(x, y, new Node(x, y, new EmptyLocal(false, false)));
-						}
-						*/
+						if(matrix.getActor().getArrows() > 0)
+							encontrarWumpus(x, y, matrix.getActor().getDirection());
 					}
 					
 					// sentimos alguma brisa nesse local
@@ -171,6 +166,128 @@ public class BFSMatrix implements TypeSearches {
 			}
 		}
 		return false;
+	}
+	
+	
+	// ao atirar a flecha, ela voua em linha reta
+	// atravessando as salas, até pegar no Wumpus ou numa parede
+	/**
+	 * @param
+	 * int x, y posicao do
+	 * 
+	 * */
+	public boolean encontrarWumpus(int actorPx, int actorPy, int direction) {
+		// sea flecha encontrar o monstro retorna TRUE e modifique
+		// as salas adjacentes
+		boolean ans = false;
+		switch (direction) {
+			case Actor.LESTE:
+				// a flecha navega para leste -> direita
+				for(int y = actorPy; y < matrix.getDimensionX(); y++) {
+					// verificar o No a direita, para onde a flecha prossegue
+					Node place = matrix.getPlace(actorPx, y);
+					// se o local que a flecha passou tem um monstro
+					if(place.getEntity() instanceof Monster) {
+						// limpa o lugar que tem o monstro
+						matrix.setWorld(actorPx, y, new EmptyLocal(false, false));
+						// remove o fedor das salas adijacentes;
+						for(Node neighboor : matrix.validateStep(actorPx, y)) {
+							// se for um buraco proximo ao monstro, no faça nada
+							if(neighboor.getEntity() instanceof Hole)
+								continue;
+							int px = neighboor.getX();
+							int py = neighboor.getY();
+							
+							// limpando  o lugar definindo o com um lugar vazio
+							matrix.setWorld(px, py, new EmptyLocal(false, false));
+						}
+						System.out.println("GRUUUUUUUUUUUUUUHN - Wumpus Morreueueueueueueueue");
+						ans = true;
+					}
+				}
+				break;
+			case Actor.OESTE:
+				// flecha caimha para direita
+				for(int y = actorPy; y >= 0; y--) {
+					// verificar o No a direita, para onde a flecha prossegue
+					Node place = matrix.getPlace(actorPx, y);
+					// se o local que a flecha passou tem um monstro
+					if(place.getEntity() instanceof Monster) {
+						// limpa o lugar que tem o monstro
+						matrix.setWorld(actorPx, y, new EmptyLocal(false, false));
+						// remove o fedor das salas adijacentes;
+						for(Node neighboor : matrix.validateStep(actorPx, y)) {
+							// se for um buraco proximo ao monstro, no faça nada
+							if(neighboor.getEntity() instanceof Hole)
+								continue;
+							int px = neighboor.getX();
+							int py = neighboor.getY();
+							
+							// limpando  o lugar definindo o com um lugar vazio
+							matrix.setWorld(px, py, new EmptyLocal(false, false));
+						}
+						System.out.println("GRUUUUUUUUUUUUUUHN - Wumpus Morreueueueueueueueue");
+						ans = true;
+					}
+				}
+				break;
+			case Actor.NORTE:
+				// a flecha caimnha para cima
+				for(int x=actorPx; x>=0; x--) {
+					// verificar o No a direita, para onde a flecha prossegue
+					Node place = matrix.getPlace(x, actorPy);
+					// se o local que a flecha passou tem um monstro
+					if(place.getEntity() instanceof Monster) {
+						// limpa o lugar que tem o monstro
+						matrix.setWorld(x, actorPy, new EmptyLocal(false, false));
+						// remove o fedor das salas adijacentes;
+						for(Node neighboor : matrix.validateStep(x, actorPy)) {
+							// se for um buraco proximo ao monstro, no faça nada
+							if(neighboor.getEntity() instanceof Hole)
+								continue;
+							int px = neighboor.getX();
+							int py = neighboor.getY();
+							
+							// limpando  o lugar definindo o com um lugar vazio
+							matrix.setWorld(px, py, new EmptyLocal(false, false));
+						}
+						System.out.println("GRUUUUUUUUUUUUUUHN - Wumpus Morreueueueueueueueue");
+						ans = true;
+					}
+				}
+				break;
+			case Actor.SUL:
+				// a flecha caimha para baixo
+				// a flecha caimnha para cima
+				for(int x=actorPx; x<matrix.getDimensionX(); x++) {
+					// verificar o No a direita, para onde a flecha prossegue
+					Node place = matrix.getPlace(x, actorPy);
+					// se o local que a flecha passou tem um monstro
+					if(place.getEntity() instanceof Monster) {
+						// limpa o lugar que tem o monstro
+						matrix.setWorld(x, actorPy, new EmptyLocal(false, false));
+						// remove o fedor das salas adijacentes;
+						for(Node neighboor : matrix.validateStep(x, actorPy)) {
+							// se for um buraco proximo ao monstro, no faça nada
+							if(neighboor.getEntity() instanceof Hole)
+								continue;
+							int px = neighboor.getX();
+							int py = neighboor.getY();
+							
+							// limpando  o lugar definindo o com um lugar vazio
+							matrix.setWorld(px, py, new EmptyLocal(false, false));
+						}
+						System.out.println("GRUUUUUUUUUUUUUUHN - Wumpus Morreueueueueueueueue");
+						ans = true;
+					}
+				}
+				break;
+			default:
+				break;
+		}
+		
+		// retorna se a flecha achou o monstro ou nao
+		return ans;
 	}
 	
 	

@@ -1,8 +1,7 @@
 package com.br.exerc.poli.entities;
 
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.Set;
 
 /**
  * @author christoffer
@@ -74,6 +73,15 @@ public class Actor extends Entity {
 	
 	public String getOrientation() {
 		return orientation;
+	}
+	
+	public Integer getDirection() {
+		for(Integer key : map.keySet()) {
+			if(map.get(key).equals(getOrientation())) {
+				return key;
+			}
+		}
+		return null;
 	}
 	
 	@Override
