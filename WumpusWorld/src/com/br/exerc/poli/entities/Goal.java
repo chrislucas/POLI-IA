@@ -5,6 +5,8 @@ package com.br.exerc.poli.entities;
  * 
  * classe que representa o objetivo da busca
  * 
+ * a sala com outro
+ * 
  * */
 
 public class Goal extends Entity {

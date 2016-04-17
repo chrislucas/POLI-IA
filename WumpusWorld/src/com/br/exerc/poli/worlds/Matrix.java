@@ -82,7 +82,6 @@ public class Matrix {
 		return world;
 	}
 	
-	
 	/**
 	 * Esse metodo sera util caso o personagem atire num monstro
 	 * dessa forma podemos mudar o cenario, apagando o monstro e
@@ -261,18 +260,19 @@ public class Matrix {
 				// um monstro
 				// se tiver, devemos atribuir VERDADE para o atributo
 				// 'mal cheiro'
-				
-				// se eh uma posicao no centro, olhar para os quatro lados
+
 				ArrayList<Node> neighboors = validateStep(x, y);
 				for(Node neighboor : neighboors) {
 					if(neighboor != null) {
 						Entity e = neighboor.getEntity();
 						if(e instanceof Monster) {
 							node = new Node(x, y, new EmptyLocal(false, true));
-							break;
-						} else if(e instanceof Hole) {
+							//break;
+						}
+						
+						else if(e instanceof Hole) {
 							node = new Node(x, y, new EmptyLocal(true, false));
-							break;
+							// break;
 						} 
 					}
 				}

@@ -16,6 +16,10 @@ public class EmptyLocal extends Entity {
 		this.windy = windy;
 		this.badSmell = badSmell;
 	}
+	
+	public EmptyLocal() {
+		
+	}
 
 	public boolean isWindy() {
 		return windy;

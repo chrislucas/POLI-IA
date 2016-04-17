@@ -12,8 +12,8 @@ package com.br.exerc.poli.actions;
  * */
 
 public interface TypeSearches {
-	
 	// metodo de busca
 	public boolean search(int sx, int sy, int dx, int dy);
+	// metodo que inicia o mundo e outras varivaveis antes de realizar a busca
 	public boolean run();
 }

@@ -99,8 +99,9 @@ public class BFSMatrix implements TypeSearches {
 			
 			// se o no expandido for o No destino acabou a busca
 			if(top.equals(matrix.getDestiny())) {
-				System.out.println(successMessage);	
+				System.out.println(successMessage);
 				matrix.getActor().setPoints(points + 1000);
+				System.out.printf("%d pontos para o Robo\n", matrix.getActor().getPoints());
 				return true;
 			}
 			points -= 10;

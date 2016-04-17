@@ -53,7 +53,7 @@ public class Main {
 				int V = 0, F = 0;
 				switch(n) {
 					case 1:
-						x = 10.0;
+						x = 100.0;
 						for(int i=0; i<(int)x; i++) {
 							System.out.printf("Caso %d\n", (i+1));
 							boolean ans = exp.run();

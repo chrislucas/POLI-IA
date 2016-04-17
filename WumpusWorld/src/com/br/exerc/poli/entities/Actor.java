@@ -26,15 +26,21 @@ public class Actor extends Entity {
 		map.put(OESTE, "AC OS");
 	}
 	
+	// construtor padrao
+	// o ator comeca com 1 flecha
+	// virado para o NORTE
 	public Actor() {
-		this.arrows = new Random().nextInt(1) + 1;
-		this.orientation = map.get(2);
+		this.arrows = 1; //new Random().nextInt(1) + 1;
+		this.orientation = map.get(1);
 		this.points = 100;
 	}
 	
+	// construtor que indica quantas flechas o ator tem
+	// quantos pontos ele comeca
+	// suaorientacao continua para o NORTE
 	public Actor(int arrows, int points) {
 		this.arrows = arrows;
-		this.orientation = map.get(2);
+		this.orientation = map.get(1);
 		this.points = points;
 	}
 	
