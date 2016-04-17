@@ -1,14 +1,7 @@
 package com.br.exerc.poli.worlds;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Random;
-
-import javax.swing.border.EmptyBorder;
-import javax.xml.ws.Holder;
-
-import com.br.exerc.poli.actions.TypeSearches;
 import com.br.exerc.poli.entities.Actor;
 import com.br.exerc.poli.entities.EmptyLocal;
 import com.br.exerc.poli.entities.Entity;
@@ -22,7 +15,7 @@ import com.br.exerc.poli.entities.Monster;
  * representacao do labirinto atraves de uma matriz de adjacencia
  * */
 
-public class Matrix implements TypeSearches {
+public class Matrix {
 	
 	public static class Node  {
 		private Entity entity;		// Entidade que esse no possui
@@ -53,6 +46,52 @@ public class Matrix implements TypeSearches {
 	private boolean [][] visited;			// matriz para marcar nos visitados
 	private int dimensionX, dimensionY;		// limites do mundo
 	
+	Entity actor, goal;
+	
+	public Node getSource() {
+		return source;
+	}
+	
+	public Node getDestiny() {
+		return destiny;
+	}
+	
+	public int getDimensionX() {
+		return dimensionX;
+	}
+	
+	public int getDimensionY() {
+		return dimensionY;
+	}
+	
+	public Node[][] getWorld() {
+		return world;
+	}
+	
+	
+	/**
+	 * Esse metodo sera util caso o personagem atire num monstro
+	 * dessa forma podemos mudar o cenario, apagando o monstro e
+	 * as consequencias que ele causa ao redor dele (mal cheiro)
+	 * 
+	 * */
+	public void setWorld(int x, int y, Node node) {
+		this.world[x][y] = node;
+	}
+	
+	/**
+	 *  Metodo que facilita o trabalho de reposicionar o personagem
+	 *  ou ate mesmos os monstros caso queira implementar uma versao
+	 *  onde os monstrons andem
+	 * */
+	public void setWorld(int x, int y, Entity entity) {
+		this.world[x][y].entity = entity;
+	}
+	
+	public Entity getActor() {
+		return actor;
+	}
+	
 	public Matrix(int dx, int dy) {
 		world 	= new Node[dx][dy];
 		visited = new boolean[dx][dy];
@@ -66,9 +105,17 @@ public class Matrix implements TypeSearches {
 		return visited[dx][dy];
 	}
 	
+	public void setVisited(int x, int y, boolean value) {
+		this.visited[x][y] = value;
+	}
+	
+	public void setVisited(boolean [][] visited) {
+		this.visited = visited;
+	}
+	
 	private void populateWorld() {
 		Random random  = new Random();
-		int maxQM = 2, maxQH = 3, countQM = 0, countQH = 0;
+		int maxQM = (int) (dimensionX * dimensionY * .05F), maxQH = (int)(dimensionY * dimensionY * .1F), countQM = 0, countQH = 0;
 		int dx = 0, dy = 0, sx = 0, sy = 0;
 		do {
 			//int n = (int)System.nanoTime() % this.dimensionX;
@@ -80,9 +127,12 @@ public class Matrix implements TypeSearches {
 			//n = (int)System.nanoTime() % this.dimensionY;
 			sy = random.nextInt(this.dimensionY);
 		} while(dx == sx || dy == sy);
-
-		source  = new Node(sx, sy, new Actor());
-		destiny = new Node(dx, dy, new Goal());
+		
+		actor = new Actor();
+		goal = new Goal();
+		
+		source  = new Node(sx, sy, actor);
+		destiny = new Node(dx, dy, goal);
 		world[sx][sy] = source;
 		world[dx][dy] = destiny;
 		
@@ -172,37 +222,24 @@ public class Matrix implements TypeSearches {
 	}
 	
 	public void statusMaze() {
-		for (int i = 0; i <dimensionY; i++) {
-			for (int j = 0; j < dimensionX; j++) {
+		for (int i = 0; i <dimensionX; i++) {
+			for (int j = 0; j < dimensionY; j++) {
 				System.out.printf("%s ", world[i][j].getEntity().returnID());
 			}
 			System.out.println("");
 		}
 	}
 
-	@Override
-	public void search(int sx, int sy, int dx, int dy) {
-		
-		Queue<Node> queue = new LinkedList<>();
-		queue.add(source);
-		// bfs
-		while(queue.isEmpty()) {
-			Node node = queue.poll();
-			if(node.equals(destiny)) {
-				
-			}
-		}	
-	}
-	
-	
+
+/*	
 	public static void main(String[] args) {
-		Matrix matrix = new Matrix(10, 10);
+		Matrix matrix = new Matrix(8, 10);
 		int sx = matrix.source.getX();
 		int sy = matrix.source.getY();
 		int dx = matrix.destiny.getX();
 		int dy = matrix.destiny.getY();
 		matrix.search(sx, sy, dx, dy);
 	}
-	
+*/	
 	
 }
