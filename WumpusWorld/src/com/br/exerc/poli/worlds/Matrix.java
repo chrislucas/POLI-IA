@@ -46,7 +46,7 @@ public class Matrix {
 	private boolean [][] visited;			// matriz para marcar nos visitados
 	private int dimensionX, dimensionY;		// limites do mundo
 	
-	Entity actor, goal;
+	private Entity actor, goal;
 	
 	public Node getSource() {
 		return source;
@@ -87,6 +87,16 @@ public class Matrix {
 	public void setWorld(int x, int y, Entity entity) {
 		this.world[x][y].entity = entity;
 	}
+	
+	/**
+	 * Metodo util para saber sobre um determinado Node
+	 * @param x
+	 * @param y
+	 * */
+	public Node getPlace(int x, int y) {
+		return this.world[x][y];
+	}
+	
 	
 	public Entity getActor() {
 		return actor;

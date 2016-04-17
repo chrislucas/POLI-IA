@@ -8,6 +8,8 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 import com.br.exerc.poli.entities.EmptyLocal;
+import com.br.exerc.poli.entities.Entity;
+import com.br.exerc.poli.entities.Hole;
 import com.br.exerc.poli.entities.Monster;
 import com.br.exerc.poli.worlds.Matrix;
 import com.br.exerc.poli.worlds.Matrix.Node;
@@ -21,44 +23,77 @@ import com.br.exerc.poli.worlds.Matrix.Node;
  * 
  * */
 
-public class BFS implements TypeSearches {
+public class BFSMatrix implements TypeSearches {
 
 	Matrix matrix;
 	
 	@Override
-	public void search(int sx, int sy, int dx, int dy) {
+	public boolean search(int sx, int sy, int dx, int dy) {
 		// TODO Auto-generated method stub
 		Queue<Node> queue = new LinkedList<>();
 		queue.add(matrix.getSource());
+		
+		boolean F = false;
+		
 		// BFS, uma busca em largura afim de procurar a caverna com o pote de ouro
 		while( ! queue.isEmpty() ) {
 			Node top = queue.poll();
 			int x = top.getX(),
 				y = top.getY();
 			
-			
-			
 			// se o no expandido for o No destino acabou a busca
 			if(top.equals(matrix.getDestiny())) {
 				System.out.println("ENCONTREI O OURO");
+				F = true;
 				break;
 			}
 			
 			matrix.setWorld(x, y, matrix.getActor());
-			
 			matrix.statusMaze();
 			
 			for(Node next : matrix.validateStep(top.getX(), top.getY())) {
-				
-				if(next.getEntity() instanceof Monster) {
-					// se for necessario gastar uma flecha com o monstro
-					// avaliar as cavernas adjacentes ao monstro e mudar
-					// a condicao de mal cheiro delas
-					for(Node nb : matrix.validateStep(next.getX(), next.getY())) {
-						x = nb.getX();
-						y = nb.getY();
-						matrix.setWorld(x, y, new Node(x, y, new EmptyLocal(false, false)));
+				/*
+				 * Ao entrar num Node o agente deve avaliar o local
+				 * */
+				Entity local = next.getEntity();
+				// O local e um local vazio ?
+				if(local instanceof EmptyLocal) {
+					// se sim, eh um local seguro, entao verificamos
+					// se é posśível identificar o que ocorre nos locais
+					// adjacentes e inferir alguma coisa
+					
+					// esse local cheira mal
+					if( ((EmptyLocal) local).isBadSmell() ) {
+						// se sim, estamos proximos do monstro
+						
+						// se for necessario gastar uma flecha com o monstro
+						// avaliar as cavernas adjacentes ao monstro e mudar
+						// a condicao de mal cheiro delas
+						/*
+						for(Node nb : matrix.validateStep(next.getX(), next.getY())) {
+							x = nb.getX();
+							y = nb.getY();
+							matrix.setWorld(x, y, new Node(x, y, new EmptyLocal(false, false)));
+						}
+						*/
 					}
+					
+					// sentimos alguma brisa nesse local
+					else if( ((EmptyLocal) local).isWindy() ) {
+						// se sim estamos proximos de um buraco
+					}
+				}
+				
+				else if(local instanceof Monster) {
+					System.out.println("Robo foi destruido pelo monstro");
+					return false;
+				}
+				
+				// local possui um buraco
+				else if( local instanceof Hole ) {
+					// se sim, o robo caiu
+					System.out.println("Robo caiu no buraco");
+					return false;
 				}
 				
 				x = next.getX();
@@ -89,12 +124,14 @@ public class BFS implements TypeSearches {
 				}
 			}
 		}
+		
+		return F;
 	}
 	
 	
 	public void run() {
 		printSubtitle();
-		matrix = new Matrix(10, 15);
+		matrix = new Matrix(15, 15);
 		int sx = matrix.getSource().getX();
 		int sy = matrix.getSource().getY();
 		int dx = matrix.getDestiny().getX();
@@ -106,7 +143,7 @@ public class BFS implements TypeSearches {
 
 	// executa uma busca num labiriton de tamanho pre determinado
 	public static void main(String[] args) {
-		new BFS().run();
+		new BFSMatrix().run();
 	}
 	
 	// permite que o usuario diga qual o tamnho do labiriton que ele deseja

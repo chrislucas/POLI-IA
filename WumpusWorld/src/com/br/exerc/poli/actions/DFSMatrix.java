@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 import com.br.exerc.poli.worlds.Matrix;
 import com.br.exerc.poli.worlds.Matrix.Node;
 
-public class DFS implements TypeSearches {
+public class DFSMatrix implements TypeSearches {
 
 	private Matrix matrix;
 	
@@ -37,13 +37,17 @@ public class DFS implements TypeSearches {
 	
 	
 	@Override
-	public void search(int sx, int sy, int dx, int dy) {
+	public boolean search(int sx, int sy, int dx, int dy) {
 		// TODO Auto-generated method stub
 		Stack<Node> stack = new Stack<>();
 		stack.push(matrix.getSource());
+		
+		boolean F = false;
+		
 		while( ! stack.empty() ) {
 			Node top = stack.pop();
 			if(top.equals(matrix.getDestiny())) {
+				F = true;
 				break;
 			}
 			
@@ -59,6 +63,8 @@ public class DFS implements TypeSearches {
 				}
 			}
 		}
+		
+		return F;
 	}
 
 }

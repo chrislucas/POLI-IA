@@ -1,6 +1,6 @@
 package com.br.exerc.poli;
 
-import com.br.exerc.poli.actions.BFS;
+import com.br.exerc.poli.actions.BFSMatrix;
 
 /**
  * 
@@ -14,7 +14,7 @@ import com.br.exerc.poli.actions.BFS;
 public class Main {
 
 	public static void main(String[] args) {
-		new BFS().run();
+		new BFSMatrix().run();
 	}
 
 }
