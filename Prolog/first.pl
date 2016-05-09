@@ -58,3 +58,25 @@ irmaos(julia,iris).
 % de maria e joao
 % progenitor(maria,Y), progenitor(joao, Y), progenitor(Y,X).
 %
+% Tio dos filhos de jose, os seus irmaos
+%
+% progenitor(X, jose), progenitor(X, Y)
+%
+%
+
+% declarando uma relacao inversa ao progenitor
+%
+
+feminino(ana).
+feminino(maria).
+masculino(joao).
+
+% clausulas do tipo abaixo sao denominadas regras
+filho(Y, X) :- progenitor(X, Y).
+filha(Y, X) :- progenitor(X, Y), feminino(Y).
+
+% regra mae
+mae(X, Y) :- progenitor(X,Y), feminino(X).
+
+% regra avo
+avo(X, Z) :- progenitor(X, Y), progenitor(Y, Z).
