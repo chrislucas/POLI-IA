@@ -119,7 +119,7 @@ public class BFSMatrix implements TypeSearches {
 			// reposiciona o Ator no labiritno
 			matrix.setWorld(x, y, matrix.getActor());
 			// Imprime o labirinto
-			matrix.statusMaze();
+			//matrix.statusMaze();
 			
 			// a partir da posicao atual, buscar as cavernas adjacentes
 			for(Node next : matrix.validateStep(top.getX(), top.getY())) {

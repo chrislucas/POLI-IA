@@ -55,7 +55,7 @@ public class Main {
 					case 1:
 						x = 100.0;
 						for(int i=0; i<(int)x; i++) {
-							System.out.printf("Caso %d\n", (i+1));
+							//System.out.printf("Caso %d\n", (i+1));
 							boolean ans = exp.run();
 							if(ans)
 								V++;

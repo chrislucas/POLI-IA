@@ -127,7 +127,7 @@ public class DFSMatrix implements TypeSearches {
 			// reposiciona o Ator no labiritno
 			matrix.setWorld(x, y, matrix.getActor());
 			// Imprime o labirinto
-			matrix.statusMaze();
+			//matrix.statusMaze();
 			
 			for(Node next : matrix.validateStep(x, y)) {
 				/*
