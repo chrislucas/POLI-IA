@@ -104,15 +104,21 @@ irma(X,Y) :-
 	feminino(X).
 
 % quem sao as irmas de mateus - irma(X, mateus)
-% quem sao as irmas de iris - irma(X, iris) 
+% quem sao as irmas de iris - irma(X, iris)
 % vemos que resultado da consulta acima devolve a irir tambem
 % como se irir fosse irma de si mesma, por ser feminino
 % Como criar uma regra para verificar se X e Y sao diferentes ?
 
-diferente(X,Y) :- X, Y.
+% abaixo seuguem tres formas de negacao
+% not(X), \+ X
+% Sinal de diferente \=
 
-irma(X,Y) :-
+diferente(X,Y) :- X \= Y.
+diferente2(X,Y) :- not(X = Y).
+diferente3(X,Y) :- \+ (X = Y).
+
+irma2(X,Y) :-
 	progenitor(Z,X),
 	progenitor(Z,Y),
 	feminino(X),
-	diferente(X,Y).
+	diferente3(X,Y).
