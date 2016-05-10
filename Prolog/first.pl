@@ -2,7 +2,9 @@ progenitor(maria,jose).
 progenitor(joao,jose).
 progenitor(maria,marcos).
 progenitor(joao,marcos).
-progenitor(marcos, rute).
+progenitor(marcos,rute).
+progenitor(marcos,marta).
+progenitor(marcos,mateus).
 progenitor(joao,ana).
 progenitor(jose,julia).
 progenitor(jose,iris).
@@ -67,16 +69,50 @@ irmaos(julia,iris).
 % declarando uma relacao inversa ao progenitor
 %
 
+% atomo
+
 feminino(ana).
 feminino(maria).
+feminino(rute).
+feminino(julia).
+feminino(iris).
+feminino(marta).
 masculino(joao).
+masculino(jose).
+masculino(marcos).
+masculino(mateus).
+
 
 % clausulas do tipo abaixo sao denominadas regras
-filho(Y, X) :- progenitor(X, Y).
+filho(Y, X) :- progenitor(X, Y), masculino(Y).
 filha(Y, X) :- progenitor(X, Y), feminino(Y).
 
 % regra mae
-mae(X, Y) :- progenitor(X,Y), feminino(X).
+mae(X, Y) :-
+	progenitor(X,Y),
+	feminino(X).
 
 % regra avo
-avo(X, Z) :- progenitor(X, Y), progenitor(Y, Z).
+avo(X, Z) :-
+	progenitor(X, Y),
+	progenitor(Y, Z).
+
+% regra para irmao
+irma(X,Y) :-
+	progenitor(Z,X),
+	progenitor(Z,Y),
+	feminino(X).
+
+% quem sao as irmas de mateus - irma(X, mateus)
+% quem sao as irmas de iris - irma(X, iris) 
+% vemos que resultado da consulta acima devolve a irir tambem
+% como se irir fosse irma de si mesma, por ser feminino
+% Como criar uma regra para verificar se X e Y sao diferentes ?
+
+diferente(X,Y).
+
+irma(X,Y) :-
+	progenitor(Z,X),
+	progenitor(Z,Y),
+	feminino(X),
+	diferente(X,Y).

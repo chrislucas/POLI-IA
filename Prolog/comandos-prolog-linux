@@ -1,0 +1,7 @@
+http://stackoverflow.com/questions/11633181/swi-prolog-change-working-directory-get-current-working-directory
+http://www.swi-prolog.org/pldoc/man?predicate=working_directory/2
+To get the current working directory use working_directory(CWD, CWD).
+To change the current working directory use working_directory(_, NewCWD).
+
+
+http://www.swi-prolog.org/pldoc/man?predicate=consult/1
