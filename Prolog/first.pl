@@ -124,3 +124,27 @@ irma2(X,Y) :-
 	diferente3(X,Y).
 
 % construcoes recursivas
+% definiremos a regra antepassado(X, Y)
+%
+% X eh antepassado de Y se X for progenitor de Y
+%
+% Diretamente caso X for pai ou mae de Y
+% Indiretamente se X for um membro na arvore de progenitura de Y
+%
+
+% regra direta
+% antepassado(maria, jose)
+% antepassado(joao, jose)
+% antepassado(joao, marcos)
+antepassado(X, Y) :-
+	progenitor(X, Y).
+
+%¨regra indireta
+% antepassado(maria, jorge)
+% antepassado(joao, jorge)
+% antepassado(joao, iris)
+antepassado(X, Y) :-
+	progenitor(X, Z),
+	antepassado(Z, Y).
+
+
